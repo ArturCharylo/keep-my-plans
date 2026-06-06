@@ -73,6 +73,22 @@ export const getGroup = async (groupId) => {
   }
 };
 
+export const addMemberToGroup = async (groupId, userId) => {
+  if (!groupId || !userId) {
+    throw new Error('Missing groupId or userId');
+  }
+
+  try {
+    const groupRef = doc(db, COLLECTIONS.GROUPS, groupId);
+    await updateDoc(groupRef, {
+      members: arrayUnion(userId)
+    });
+  } catch (error) {
+    console.error('Error adding member to group:', error);
+    throw error;
+  }
+};
+
 export const subscribeToGroup = (groupId, callback) => {
   const groupRef = doc(db, COLLECTIONS.GROUPS, groupId);
 
