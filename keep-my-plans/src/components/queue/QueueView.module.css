@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingContainer,
+.errorContainer,
+.emptyState {
+  padding: var(--spacing-xl);
+  text-align: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.loadingContainer,
+.emptyState {
+  color: var(--color-text-secondary);
+}
+
+.errorContainer {
+  color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-right: var(--spacing-xs);
+}
+
+.filterBtn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover:not(.active) {
+  background-color: var(--color-surface-alt);
+}
+
+.filterBtn.active {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}

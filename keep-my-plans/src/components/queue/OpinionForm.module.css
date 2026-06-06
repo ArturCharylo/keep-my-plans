@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px dashed var(--color-border);
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-border);
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+
+.star:hover,
+.star.active {
+  color: #ffb400;
+}
+
+.clearBtn {
+  background: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-left: var(--spacing-sm);
+  text-decoration: underline;
+}
+
+.opinionContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.2);
+}
+
+.textareaError {
+  border-color: #f44336;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-xs);
+}
+
+.charCount {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.countError {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.errorText {
+  font-size: 0.8rem;
+  color: #f44336;
+}
+
+.globalError {
+  font-size: 0.85rem;
+  color: #f44336;
+  background-color: #ffebee;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.success {
+  font-size: 0.9rem;
+  color: #4caf50;
+  font-weight: 500;
+}
