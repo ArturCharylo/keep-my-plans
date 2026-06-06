@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from './HomePage.module.css';
 import { useAuth } from '../hooks/useAuth';
 import { GroupGate } from '../components/group/GroupGate';
+import { LoginGate } from '../components/auth/LoginGate';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 export const HomePage = () => {
   const { user, loading } = useAuth();
@@ -23,11 +25,7 @@ export const HomePage = () => {
 
   // If there's a saved group but auth is pending, show loading state
   if (savedGroupId && loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <p aria-live="polite">Ładowanie...</p>
-      </div>
-    );
+    return <LoadingSpinner fullScreen />;
   }
 
   return (
@@ -39,9 +37,9 @@ export const HomePage = () => {
 
       <main className={styles.main}>
         {loading ? (
-          <div className={styles.loadingContainer}>
-            <p aria-live="polite">Przygotowywanie...</p>
-          </div>
+          <LoadingSpinner />
+        ) : !user ? (
+          <LoginGate />
         ) : (
           <GroupGate onGroupJoined={handleGroupJoined} />
         )}

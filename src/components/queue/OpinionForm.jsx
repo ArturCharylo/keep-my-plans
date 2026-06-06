@@ -45,7 +45,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
     setLoading(true);
 
     try {
-      await setReaction(groupId, itemId, user.uid, {
+      await setReaction(groupId, itemId, user, {
         rating: rating > 0 ? rating : null,
         opinion: opinion.trim()
       });

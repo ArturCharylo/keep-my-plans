@@ -1,38 +1,85 @@
-import { useState, useEffect, useRef } from 'react';
-import { signInAnonymously, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../services/firebase';
+import { useState, useEffect } from 'react';
+import {
+  onAuthStateChanged,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  signOut
+} from 'firebase/auth';
+import { auth, googleProvider } from '../services/firebase';
+import { saveUserProfile } from '../services/userService';
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const loginAttempted = useRef(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        // User is signed in
         localStorage.setItem('watchqueue_uid', currentUser.uid);
         setUser(currentUser);
-        setLoading(false);
       } else {
-        // User is signed out, attempt anonymous login
-        if (!loginAttempted.current) {
-          loginAttempted.current = true;
-          try {
-            await signInAnonymously(auth);
-            // onAuthStateChanged will trigger again with the new user
-          } catch (error) {
-            console.error('Error during anonymous sign in:', error);
-            setLoading(false);
-          }
-        } else {
-          setLoading(false);
-        }
+        setUser(null);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  return { user, loading };
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      await saveUserProfile(result.user);
+      return result.user;
+    } catch (error) {
+      console.error('Error during Google sign in:', error);
+      throw error;
+    }
+  };
+
+  const registerWithEmail = async (email, password, displayName) => {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(result.user, { displayName });
+      // Update local state early if needed, though onAuthStateChanged will catch it
+      await saveUserProfile(result.user, displayName);
+      return result.user;
+    } catch (error) {
+      console.error('Error during email registration:', error);
+      throw error;
+    }
+  };
+
+  const loginWithEmail = async (email, password) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      await saveUserProfile(result.user);
+      return result.user;
+    } catch (error) {
+      console.error('Error during email login:', error);
+      throw error;
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('watchqueue_uid');
+      localStorage.removeItem('watchqueue_group');
+    } catch (error) {
+      console.error('Error during sign out:', error);
+      throw error;
+    }
+  };
+
+  return {
+    user,
+    loading,
+    signInWithGoogle,
+    registerWithEmail,
+    loginWithEmail,
+    logout
+  };
 };

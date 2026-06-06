@@ -1,8 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './GroupHeader.module.css';
 import { Button } from '../common/Button';
 import { InviteCode } from './InviteCode';
+import { useAuth } from '../../hooks/useAuth';
 
 export const GroupHeader = ({ groupName, inviteCode, membersCount, onLeave }) => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
   return (
     <header className={styles.header}>
       <div className={styles.topRow}>
@@ -12,9 +25,14 @@ export const GroupHeader = ({ groupName, inviteCode, membersCount, onLeave }) =>
             Członkowie: {membersCount}
           </span>
         </div>
-        <Button variant="secondary" onClick={onLeave}>
-          Opuść grupę
-        </Button>
+        <div className={styles.actionButtons}>
+          <Button variant="secondary" onClick={onLeave}>
+            Opuść grupę
+          </Button>
+          <Button variant="secondary" onClick={handleLogout}>
+            Wyloguj
+          </Button>
+        </div>
       </div>
 
       <div className={styles.inviteContainer}>
