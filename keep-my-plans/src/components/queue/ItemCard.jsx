@@ -7,14 +7,7 @@ import { WatchedToggle } from './WatchedToggle';
 import { OpinionForm } from './OpinionForm';
 import { ReactionSummary } from './ReactionSummary';
 import { Button } from '../common/Button';
-
-const ITEM_TYPE_LABELS = {
-  film: 'Film',
-  series: 'Serial',
-  music: 'Muzyka',
-  video: 'Wideo',
-  other: 'Inne',
-};
+import { ITEM_TYPE_LABELS } from '../../constants';
 
 export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }) => {
   const { user } = useAuth();

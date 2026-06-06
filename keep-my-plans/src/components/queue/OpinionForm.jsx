@@ -3,7 +3,7 @@ import styles from './OpinionForm.module.css';
 import { Button } from '../common/Button';
 import { setReaction } from '../../services/queueService';
 import { useAuth } from '../../hooks/useAuth';
-import { MAX_OPINION_LENGTH, SUCCESS_TIMEOUT_MS, MAX_RATING_STARS } from '../../constants';
+import { MAX_OPINION_LENGTH, SUCCESS_TIMEOUT_MS, MAX_RATING_STARS, DEFAULT_TEXTAREA_ROWS } from '../../constants';
 
 export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) => {
   // Use keys to reset the component when these change from parents if necessary, rather than useEffect syncs
@@ -99,7 +99,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
           onChange={handleOpinionChange}
           onBlur={handleBlur}
           placeholder="Napisz co myślisz..."
-          rows={3}
+          rows={DEFAULT_TEXTAREA_ROWS}
         />
         <div className={styles.infoRow}>
           <span className={`${styles.charCount} ${opinion.length > MAX_OPINION_LENGTH ? styles.countError : ''}`}>
