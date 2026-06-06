@@ -3,8 +3,10 @@ import styles from './GroupHeader.module.css';
 import { Button } from '../common/Button';
 import { InviteCode } from './InviteCode';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 
 export const GroupHeader = ({ groupName, inviteCode, membersCount, onLeave }) => {
+  const { theme, toggleTheme } = useTheme();
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -26,6 +28,9 @@ export const GroupHeader = ({ groupName, inviteCode, membersCount, onLeave }) =>
           </span>
         </div>
         <div className={styles.actionButtons}>
+          <Button variant="secondary" onClick={toggleTheme} aria-label="Przełącz motyw">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </Button>
           <Button variant="secondary" onClick={onLeave}>
             Opuść grupę
           </Button>

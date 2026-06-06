@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import styles from './EventCard.module.css';
 import { Button } from '../common/Button';
+import { ConfirmModal } from '../common/ConfirmModal';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteEvent } from '../../services/eventService';
 import { MAX_DESCRIPTION_LENGTH } from '../../constants';
@@ -23,6 +24,7 @@ export const EventCard = ({ event, groupId, isPast }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isAuthor = user && event.createdBy === user.uid;
   const isDescriptionLong = event.description && event.description.length > MAX_DESCRIPTION_LENGTH;
@@ -32,11 +34,12 @@ export const EventCard = ({ event, groupId, isPast }) => {
     ? dateFormatter.format(new Date(event.date))
     : '';
 
-  const handleDelete = useCallback(async () => {
-    if (!window.confirm('Czy na pewno chcesz usunąć to wydarzenie?')) {
-      return;
-    }
+  const handleDeleteClick = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
 
+  const handleConfirmDelete = useCallback(async () => {
+    setIsModalOpen(false);
     setDeleteLoading(true);
     setDeleteError('');
 
@@ -48,6 +51,10 @@ export const EventCard = ({ event, groupId, isPast }) => {
       setDeleteLoading(false);
     }
   }, [groupId, event.id]);
+
+  const handleCancelDelete = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   return (
     <div className={`${styles.card} ${isPast ? styles.past : ''}`}>
@@ -68,7 +75,7 @@ export const EventCard = ({ event, groupId, isPast }) => {
         {isAuthor && (
           <Button
             variant="danger"
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             loading={deleteLoading}
             disabled={deleteLoading}
           >
@@ -109,6 +116,14 @@ export const EventCard = ({ event, groupId, isPast }) => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Potwierdzenie"
+        message="Czy na pewno chcesz usunąć to wydarzenie?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </div>
   );
 };

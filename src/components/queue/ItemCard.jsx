@@ -7,6 +7,7 @@ import { WatchedToggle } from './WatchedToggle';
 import { OpinionForm } from './OpinionForm';
 import { ReactionSummary } from './ReactionSummary';
 import { Button } from '../common/Button';
+import { ConfirmModal } from '../common/ConfirmModal';
 import { ITEM_TYPE_LABELS } from '../../constants';
 
 export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }) => {
@@ -16,14 +17,16 @@ export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState('');
   const [imageFailed, setImageFailed] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isAuthor = user && item.addedBy === user.uid;
 
-  const handleDelete = useCallback(async () => {
-    if (!window.confirm('Czy na pewno chcesz usunąć tę pozycję z kolejki?')) {
-      return;
-    }
+  const handleDeleteClick = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
 
+  const handleConfirmDelete = useCallback(async () => {
+    setIsModalOpen(false);
     setDeleteLoading(true);
     setDeleteError('');
 
@@ -35,6 +38,10 @@ export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }
       setDeleteLoading(false);
     }
   }, [groupId, item.id]);
+
+  const handleCancelDelete = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
 
   const handleImageError = useCallback(() => {
     setImageFailed(true);
@@ -62,7 +69,7 @@ export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }
         {isAuthor && (
           <Button
             variant="danger"
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             loading={deleteLoading}
             disabled={deleteLoading}
           >
@@ -123,6 +130,14 @@ export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }
           )}
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Potwierdzenie"
+        message="Czy na pewno chcesz usunąć tę pozycję z kolejki?"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </div>
   );
 });
