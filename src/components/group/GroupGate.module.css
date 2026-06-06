@@ -1,37 +1,41 @@
 .container {
   max-width: 400px;
   margin: 0 auto;
-  background: var(--color-surface);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
 }
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .tab {
   flex: 1;
   padding: var(--spacing-md);
-  background: var(--color-surface-alt);
+  background: var(--input-bg);
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--color-text-secondary);
+  color: var(--text-secondary);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .tab:hover {
-  background: var(--color-surface);
+  background: var(--color-primary-bg);
+  color: var(--text-primary);
 }
 
 .activeTab {
   flex: 1;
   padding: var(--spacing-md);
-  background: var(--color-surface);
+  background: var(--color-primary-bg);
   border: none;
   border-bottom: 2px solid var(--color-primary);
   color: var(--color-primary);
@@ -51,40 +55,43 @@
 
 .label {
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
 .input {
   padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-sm);
   font-size: 1rem;
-  color: var(--color-text-primary);
-  background: var(--color-surface);
-  transition: border-color 0.2s;
+  color: var(--text-primary);
+  background: var(--input-bg);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: var(--glow-shadow);
 }
 
 .submitButton {
   padding: var(--spacing-sm) var(--spacing-md);
   background: var(--color-primary);
-  color: #fff;
+  color: #111;
   border: none;
   border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   margin-top: var(--spacing-sm);
 }
 
 .submitButton:hover:not(:disabled) {
   background: var(--color-primary-hover);
+  box-shadow: var(--glow-shadow);
+  transform: translateY(-2px);
 }
 
 .submitButton:disabled {
@@ -93,8 +100,9 @@
 }
 
 .error {
-  color: #d32f2f;
-  background-color: #ffebee;
+  color: var(--color-danger);
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
   margin-bottom: var(--spacing-md);

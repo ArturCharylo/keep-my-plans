@@ -1,20 +1,22 @@
 .card {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-md);
-  box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--glow-shadow);
+  transform: translateY(-2px);
 }
 
 .card.past {
   opacity: 0.7;
-  background-color: var(--color-surface-alt);
 }
 
 .card.past .title {
@@ -22,8 +24,9 @@
 }
 
 .errorBanner {
-  background-color: #ffebee;
-  color: #d32f2f;
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
   margin-bottom: var(--spacing-md);
@@ -58,7 +61,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  background-color: var(--color-primary);
+  background: var(--color-primary);
   color: #fff;
   padding: 2px 8px;
   border-radius: 12px;

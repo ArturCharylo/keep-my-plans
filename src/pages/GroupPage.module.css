@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background-color: var(--color-surface-alt);
+  background: var(--app-bg-gradient);
   display: flex;
   flex-direction: column;
 }
@@ -19,5 +19,5 @@
   justify-content: center;
   min-height: 100vh;
   padding: var(--spacing-lg);
-  background-color: var(--color-surface-alt);
+  background: var(--app-bg-gradient);
 }

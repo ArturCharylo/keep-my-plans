@@ -1,4 +1,4 @@
-import { useEffect, Suspense, useCallback } from 'react';
+import { useEffect, Suspense, useCallback, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './GroupPage.module.css';
 import { useAuth } from '../hooks/useAuth';
@@ -9,6 +9,7 @@ import { GroupHeader } from '../components/group/GroupHeader';
 import { ViewToggle } from '../components/common/ViewToggle';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { ErrorMessage } from '../components/common/ErrorMessage';
+import { ConfirmModal } from '../components/common/ConfirmModal';
 import { QueueView } from '../components/queue/QueueView';
 import { EventsView } from '../components/events/EventsView';
 import { VIEW_MODES, ROUTES } from '../constants';
@@ -19,6 +20,7 @@ const GroupPageContent = () => {
   const { user, loading: authLoading } = useAuth();
   const { group, loading: groupLoading, error: groupError } = useGroup(groupId);
   const { viewMode, setViewMode } = useViewMode();
+  const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
 
   useEffect(() => {
     const ensureMembership = async () => {
@@ -37,12 +39,19 @@ const GroupPageContent = () => {
     ensureMembership();
   }, [user, group, groupId]);
 
-  const handleLeaveGroup = useCallback(() => {
-    if (window.confirm('Czy na pewno chcesz opuścić tę grupę?')) {
-      localStorage.removeItem('watchqueue_group');
-      navigate(ROUTES.HOME);
-    }
+  const handleLeaveClick = useCallback(() => {
+    setIsLeaveModalOpen(true);
+  }, []);
+
+  const handleConfirmLeave = useCallback(() => {
+    setIsLeaveModalOpen(false);
+    localStorage.removeItem('watchqueue_group');
+    navigate(ROUTES.HOME);
   }, [navigate]);
+
+  const handleCancelLeave = useCallback(() => {
+    setIsLeaveModalOpen(false);
+  }, []);
 
   if (authLoading || groupLoading) {
     return <LoadingSpinner fullScreen />;
@@ -67,7 +76,7 @@ const GroupPageContent = () => {
         groupName={group.name}
         inviteCode={group.inviteCode}
         membersCount={membersCount}
-        onLeave={handleLeaveGroup}
+        onLeave={handleLeaveClick}
       />
 
       <main className={styles.main}>
@@ -79,6 +88,14 @@ const GroupPageContent = () => {
           <EventsView groupId={groupId} />
         )}
       </main>
+
+      <ConfirmModal
+        isOpen={isLeaveModalOpen}
+        title="Opuść grupę"
+        message="Czy na pewno chcesz opuścić tę grupę?"
+        onConfirm={handleConfirmLeave}
+        onCancel={handleCancelLeave}
+      />
     </div>
   );
 };
