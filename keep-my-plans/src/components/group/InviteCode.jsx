@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './InviteCode.module.css';
+import { COPIED_TIMEOUT_MS } from '../../constants';
 
 export const InviteCode = ({ inviteCode }) => {
   const [copied, setCopied] = useState(false);
@@ -10,7 +11,7 @@ export const InviteCode = ({ inviteCode }) => {
       setCopied(true);
       setTimeout(() => {
         setCopied(false);
-      }, 2000);
+      }, COPIED_TIMEOUT_MS);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }

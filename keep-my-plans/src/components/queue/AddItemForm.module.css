@@ -19,6 +19,19 @@
   flex-direction: column;
 }
 
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.05rem;
+}
+
 .globalError {
   background-color: #ffebee;
   color: #d32f2f;

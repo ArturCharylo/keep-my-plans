@@ -16,3 +16,12 @@ export const EVENT_TYPES = {
   TRIP: 'trip',
   OTHER: 'other',
 };
+
+export const MAX_DESCRIPTION_LENGTH = 100;
+export const MAX_OPINION_LENGTH = 300;
+export const INVITE_CODE_LENGTH = 6;
+export const COPIED_TIMEOUT_MS = 2000;
+export const SUCCESS_TIMEOUT_MS = 3000;
+export const MAX_RATING_STARS = 5;
+export const MIN_TITLE_LENGTH = 3;
+export const USER_ID_PREFIX_LENGTH = 4;

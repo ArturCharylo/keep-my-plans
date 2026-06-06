@@ -10,19 +10,23 @@ export const useGroup = (groupId) => {
     let mounted = true;
 
     if (!groupId) {
-      if (mounted) {
-        setGroup(null);
-        setError(null);
-        setLoading(false);
-      }
+      setTimeout(() => {
+        if (mounted) {
+          setGroup(null);
+          setError(null);
+          setLoading(false);
+        }
+      }, 0);
       return;
     }
 
-    if (mounted) {
-      setGroup(null);
-      setError(null);
-      setLoading(true);
-    }
+    setTimeout(() => {
+      if (mounted) {
+        setGroup(null);
+        setError(null);
+        setLoading(true);
+      }
+    }, 0);
 
     const unsubscribe = subscribeToGroup(groupId, (groupData) => {
       if (!mounted) return;

@@ -115,6 +115,7 @@ export const ItemCard = React.memo(({ item, groupId, groupMembersCount, filter }
               />
 
               <OpinionForm
+                key={`${item.id}-${myReaction?.rating}-${myReaction?.opinion}`}
                 groupId={groupId}
                 itemId={item.id}
                 initialRating={myReaction?.rating || 0}
