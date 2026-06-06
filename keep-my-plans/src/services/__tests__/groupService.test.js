@@ -41,6 +41,7 @@ describe('groupService', () => {
 
     expect(result.groupId).toBe('group123');
     expect(result.inviteCode).toBeTruthy();
+    // eslint-disable-next-line no-magic-numbers
     expect(result.inviteCode.length).toBe(6);
     expect(mockAddDoc).toHaveBeenCalledTimes(1);
 

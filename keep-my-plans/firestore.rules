@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Is user authenticated anonymously or otherwise
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Users can read groups they are members of
+    // Users can create groups
+    // Users can join a group (update members array)
+    match /groups/{groupId} {
+      allow create: if isAuthenticated();
+      allow read: if isAuthenticated() && (request.auth.uid in resource.data.members || request.query.limit == 1); // Allow query by invite code
+      allow update: if isAuthenticated(); // Simpler rule to allow joining
+
+      // Items subcollection
+      match /items/{itemId} {
+        allow read, write: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/groups/$(groupId)).data.members;
+
+        // Reactions subcollection
+        match /reactions/{userId} {
+          allow read: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/groups/$(groupId)).data.members;
+          allow write: if isAuthenticated() && request.auth.uid == userId;
+        }
+      }
+
+      // Events subcollection
+      match /events/{eventId} {
+        allow read, write: if isAuthenticated() && request.auth.uid in get(/databases/$(database)/documents/groups/$(groupId)).data.members;
+      }
+    }
+  }
+}

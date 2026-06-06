@@ -93,45 +93,48 @@ export const AddItemForm = ({ groupId }) => {
       )}
 
       <form onSubmit={handleSubmit} className={styles.form} noValidate>
-        <Input
-          id="item-title"
-          label="Tytuł"
-          value={formData.title}
-          onChange={(e) => handleChange({ target: { name: 'title', value: e.target.value } })}
-          placeholder="Wpisz tytuł..."
-          error={errors.title}
-          required
-        />
-
-        <div className={styles.fieldGroup}>
-          <label htmlFor="item-type" className={styles.label}>
-            Rodzaj <span className={styles.required}>*</span>
-          </label>
-          <select
-            id="item-type"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className={styles.select}
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Szczegóły pozycji</legend>
+          <Input
+            id="item-title"
+            label="Tytuł"
+            value={formData.title}
+            onChange={(e) => handleChange({ target: { name: 'title', value: e.target.value } })}
+            placeholder="Wpisz tytuł..."
+            error={errors.title}
             required
-          >
-            <option value={ITEM_TYPES.FILM}>Film</option>
-            <option value={ITEM_TYPES.SERIES}>Serial</option>
-            <option value={ITEM_TYPES.MUSIC}>Muzyka</option>
-            <option value={ITEM_TYPES.VIDEO}>Wideo</option>
-            <option value={ITEM_TYPES.OTHER}>Inne</option>
-          </select>
-        </div>
+          />
 
-        <Input
-          id="item-url"
-          label="Link URL (opcjonalnie)"
-          value={formData.url}
-          onChange={(e) => handleChange({ target: { name: 'url', value: e.target.value } })}
-          placeholder="https://..."
-          error={errors.url}
-          type="url"
-        />
+          <div className={styles.fieldGroup}>
+            <label htmlFor="item-type" className={styles.label}>
+              Rodzaj <span className={styles.required}>*</span>
+            </label>
+            <select
+              id="item-type"
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className={styles.select}
+              required
+            >
+              <option value={ITEM_TYPES.FILM}>Film</option>
+              <option value={ITEM_TYPES.SERIES}>Serial</option>
+              <option value={ITEM_TYPES.MUSIC}>Muzyka</option>
+              <option value={ITEM_TYPES.VIDEO}>Wideo</option>
+              <option value={ITEM_TYPES.OTHER}>Inne</option>
+            </select>
+          </div>
+
+          <Input
+            id="item-url"
+            label="Link URL (opcjonalnie)"
+            value={formData.url}
+            onChange={(e) => handleChange({ target: { name: 'url', value: e.target.value } })}
+            placeholder="https://..."
+            error={errors.url}
+            type="url"
+          />
+        </fieldset>
 
         <Input
           id="item-coverUrl"

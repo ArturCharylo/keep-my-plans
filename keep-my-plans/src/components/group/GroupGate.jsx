@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './GroupGate.module.css';
 import { createGroup, joinGroupByCode } from '../../services/groupService';
 import { useAuth } from '../../hooks/useAuth';
+import { MIN_TITLE_LENGTH } from '../../constants';
 
 export const GroupGate = ({ onGroupJoined }) => {
   const [activeTab, setActiveTab] = useState('create');
@@ -16,8 +17,8 @@ export const GroupGate = ({ onGroupJoined }) => {
     e.preventDefault();
     if (!user) return;
 
-    if (groupName.trim().length < 3) {
-      setError('Nazwa grupy musi mieć co najmniej 3 znaki.');
+    if (groupName.trim().length < MIN_TITLE_LENGTH) {
+      setError(`Nazwa grupy musi mieć co najmniej ${MIN_TITLE_LENGTH} znaki.`);
       return;
     }
 

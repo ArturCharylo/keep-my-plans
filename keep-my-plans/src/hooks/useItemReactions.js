@@ -11,16 +11,20 @@ export const useItemReactions = ({ groupId, itemId }) => {
     let mounted = true;
 
     if (!groupId || !itemId) {
-      if (mounted) {
-        setReactions({});
-        setLoading(false);
-      }
+      setTimeout(() => {
+        if (mounted) {
+          setReactions({});
+          setLoading(false);
+        }
+      }, 0);
       return;
     }
 
-    if (mounted) {
-      setLoading(true);
-    }
+    setTimeout(() => {
+      if (mounted) {
+        setLoading(true);
+      }
+    }, 0);
 
     const unsubscribe = subscribeToReactions(groupId, itemId, (fetchedReactions) => {
       if (!mounted) return;

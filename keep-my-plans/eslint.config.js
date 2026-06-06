@@ -28,7 +28,7 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-      'react-hooks/set-state-in-effect': 'off'
+      'no-magic-numbers': ['error', { ignore: [-1, 0, 1, 2], ignoreArrayIndexes: true }],
     },
   },
   eslintConfigPrettier,

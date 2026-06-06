@@ -103,6 +103,8 @@ export const AddEventForm = ({ groupId }) => {
           required
         />
 
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}>Szczegóły wydarzenia</legend>
         <div className={styles.row}>
           <div className={styles.fieldGroup}>
             <label htmlFor="event-type" className={styles.label}>
@@ -145,6 +147,7 @@ export const AddEventForm = ({ groupId }) => {
             )}
           </div>
         </div>
+        </fieldset>
 
         <Input
           id="event-location"

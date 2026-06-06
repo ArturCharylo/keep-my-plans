@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import styles from './ReactionSummary.module.css';
+import { USER_ID_PREFIX_LENGTH } from '../../constants';
 
 export const ReactionSummary = ({ reactions, totalMembers }) => {
   const summary = useMemo(() => {
@@ -22,7 +23,7 @@ export const ReactionSummary = ({ reactions, totalMembers }) => {
 
       if (reaction.opinion && reaction.opinion.trim()) {
         opinions.push({
-          userId: userId.substring(0, 4),
+          userId: userId.substring(0, USER_ID_PREFIX_LENGTH),
           opinion: reaction.opinion,
           rating: reaction.rating
         });

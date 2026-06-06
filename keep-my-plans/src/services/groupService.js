@@ -14,10 +14,12 @@ import {
 import { db } from './firebase';
 import { COLLECTIONS } from '../constants';
 
+import { INVITE_CODE_LENGTH } from '../constants';
+
 const generateInviteCode = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < INVITE_CODE_LENGTH; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;

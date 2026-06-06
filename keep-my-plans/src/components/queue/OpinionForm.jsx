@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from './OpinionForm.module.css';
 import { Button } from '../common/Button';
 import { setReaction } from '../../services/queueService';
 import { useAuth } from '../../hooks/useAuth';
+import { MAX_OPINION_LENGTH, SUCCESS_TIMEOUT_MS, MAX_RATING_STARS } from '../../constants';
 
 export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) => {
+  // Use keys to reset the component when these change from parents if necessary, rather than useEffect syncs
   const [rating, setRating] = useState(initialRating || 0);
   const [opinion, setOpinion] = useState(initialOpinion || '');
   const [loading, setLoading] = useState(false);
@@ -13,14 +15,9 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
   const [success, setSuccess] = useState(false);
   const { user } = useAuth();
 
-  useEffect(() => {
-    setRating(initialRating || 0);
-    setOpinion(initialOpinion || '');
-  }, [initialRating, initialOpinion]);
-
   const handleBlur = () => {
-    if (opinion.length > 300) {
-      setBlurError(`Przekroczono limit znaków: ${opinion.length}/300.`);
+    if (opinion.length > MAX_OPINION_LENGTH) {
+      setBlurError(`Przekroczono limit znaków: ${opinion.length}/${MAX_OPINION_LENGTH}.`);
     } else {
       setBlurError('');
     }
@@ -28,7 +25,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
 
   const handleOpinionChange = (e) => {
     setOpinion(e.target.value);
-    if (blurError && e.target.value.length <= 300) {
+    if (blurError && e.target.value.length <= MAX_OPINION_LENGTH) {
       setBlurError('');
     }
   };
@@ -38,7 +35,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
     setError('');
     setSuccess(false);
 
-    if (opinion.length > 300) {
+    if (opinion.length > MAX_OPINION_LENGTH) {
       setError('Opinia jest zbyt długa.');
       return;
     }
@@ -53,7 +50,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
         opinion: opinion.trim()
       });
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
+      setTimeout(() => setSuccess(false), SUCCESS_TIMEOUT_MS);
     } catch (err) {
       console.error('Failed to save opinion:', err);
       setError('Wystąpił błąd podczas zapisywania opinii.');
@@ -67,7 +64,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
       <div className={styles.ratingContainer}>
         <span className={styles.label}>Ocena:</span>
         <div className={styles.stars}>
-          {[1, 2, 3, 4, 5].map((star) => (
+          {Array.from({ length: MAX_RATING_STARS }, (_, i) => i + 1).map((star) => (
             <button
               key={star}
               type="button"
@@ -105,8 +102,8 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
           rows={3}
         />
         <div className={styles.infoRow}>
-          <span className={`${styles.charCount} ${opinion.length > 300 ? styles.countError : ''}`}>
-            {opinion.length}/300
+          <span className={`${styles.charCount} ${opinion.length > MAX_OPINION_LENGTH ? styles.countError : ''}`}>
+            {opinion.length}/{MAX_OPINION_LENGTH}
           </span>
           {blurError && <span className={styles.errorText} aria-live="polite">{blurError}</span>}
         </div>
@@ -115,7 +112,7 @@ export const OpinionForm = ({ groupId, itemId, initialRating, initialOpinion }) 
       {error && <div className={styles.globalError} aria-live="assertive">{error}</div>}
 
       <div className={styles.actions}>
-        <Button type="submit" loading={loading} disabled={loading || opinion.length > 300}>
+        <Button type="submit" loading={loading} disabled={loading || opinion.length > MAX_OPINION_LENGTH}>
           Zapisz opinię
         </Button>
         {success && <span className={styles.success} aria-live="polite">Zapisano!</span>}

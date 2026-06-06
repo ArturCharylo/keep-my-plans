@@ -3,6 +3,7 @@ import styles from './EventCard.module.css';
 import { Button } from '../common/Button';
 import { useAuth } from '../../hooks/useAuth';
 import { deleteEvent } from '../../services/eventService';
+import { MAX_DESCRIPTION_LENGTH } from '../../constants';
 
 const EVENT_TYPE_LABELS = {
   meeting: 'Spotkanie',
@@ -24,7 +25,7 @@ export const EventCard = ({ event, groupId, isPast }) => {
   const [deleteError, setDeleteError] = useState('');
 
   const isAuthor = user && event.createdBy === user.uid;
-  const isDescriptionLong = event.description && event.description.length > 100;
+  const isDescriptionLong = event.description && event.description.length > MAX_DESCRIPTION_LENGTH;
 
   // We assume event.date is stored as YYYY-MM-DD
   const formattedDate = event.date
@@ -94,7 +95,7 @@ export const EventCard = ({ event, groupId, isPast }) => {
             <p className={styles.description}>
               {showDetails || !isDescriptionLong
                 ? event.description
-                : `${event.description.substring(0, 100)}...`}
+                : `${event.description.substring(0, MAX_DESCRIPTION_LENGTH)}...`}
             </p>
             {isDescriptionLong && (
               <button

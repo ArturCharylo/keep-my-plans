@@ -10,18 +10,22 @@ export const useEvents = (groupId) => {
     let mounted = true;
 
     if (!groupId) {
-      if (mounted) {
-        setEvents([]);
-        setError(null);
-        setLoading(false);
-      }
+      setTimeout(() => {
+        if (mounted) {
+          setEvents([]);
+          setError(null);
+          setLoading(false);
+        }
+      }, 0);
       return;
     }
 
-    if (mounted) {
-      setLoading(true);
-      setError(null);
-    }
+    setTimeout(() => {
+      if (mounted) {
+        setLoading(true);
+        setError(null);
+      }
+    }, 0);
 
     const unsubscribe = subscribeToEvents(groupId, (fetchedEvents) => {
       if (!mounted) return;

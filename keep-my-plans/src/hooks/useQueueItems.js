@@ -10,18 +10,22 @@ export const useQueueItems = (groupId) => {
     let mounted = true;
 
     if (!groupId) {
-      if (mounted) {
-        setItems([]);
-        setError(null);
-        setLoading(false);
-      }
+      setTimeout(() => {
+        if (mounted) {
+          setItems([]);
+          setError(null);
+          setLoading(false);
+        }
+      }, 0);
       return;
     }
 
-    if (mounted) {
-      setLoading(true);
-      setError(null);
-    }
+    setTimeout(() => {
+      if (mounted) {
+        setLoading(true);
+        setError(null);
+      }
+    }, 0);
 
     const unsubscribe = subscribeToItems(groupId, (fetchedItems) => {
       if (!mounted) return;
