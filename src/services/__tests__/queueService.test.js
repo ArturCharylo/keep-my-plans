@@ -48,12 +48,15 @@ describe('queueService', () => {
     mockDoc.mockReturnValue('reactionDocRef');
     mockSetDoc.mockResolvedValue();
 
+    const mockUser = { uid: 'user1', displayName: 'Test User', photoURL: 'test.jpg' };
     const reactionData = { watched: true, rating: 5 };
-    await setReaction('group1', 'item1', 'user1', reactionData);
+    await setReaction('group1', 'item1', mockUser, reactionData);
 
     expect(mockSetDoc).toHaveBeenCalledTimes(1);
     expect(mockSetDoc).toHaveBeenCalledWith('reactionDocRef', {
       ...reactionData,
+      userName: 'Test User',
+      userAvatar: 'test.jpg',
       updatedAt: 'timestamp'
     }, { merge: true });
   });

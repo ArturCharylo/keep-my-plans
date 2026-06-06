@@ -24,6 +24,8 @@ export const ReactionSummary = ({ reactions, totalMembers }) => {
       if (reaction.opinion && reaction.opinion.trim()) {
         opinions.push({
           userId: userId.substring(0, USER_ID_PREFIX_LENGTH),
+          userName: reaction.userName || `User ${userId.substring(0, USER_ID_PREFIX_LENGTH)}`,
+          userAvatar: reaction.userAvatar,
           opinion: reaction.opinion,
           rating: reaction.rating
         });
@@ -68,7 +70,24 @@ export const ReactionSummary = ({ reactions, totalMembers }) => {
           {summary.opinions.map((op, idx) => (
             <div key={`${op.userId}-${idx}`} className={styles.opinionItem}>
               <div className={styles.opinionHeader}>
-                <span className={styles.userId}>User {op.userId}</span>
+                <div className={styles.userInfo}>
+                  {op.userAvatar ? (
+                    <img
+                      src={op.userAvatar}
+                      alt=""
+                      className={styles.avatar}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <div className={styles.avatarFallback} aria-hidden="true">
+                      {op.userName.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <span className={styles.userId}>{op.userName}</span>
+                </div>
                 {op.rating && <span className={styles.userRating}>★ {op.rating}</span>}
               </div>
               <p className={styles.opinionText}>{op.opinion}</p>

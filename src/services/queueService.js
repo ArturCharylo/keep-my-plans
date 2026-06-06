@@ -59,12 +59,14 @@ export const subscribeToItems = (groupId, callback) => {
   return unsubscribe;
 };
 
-export const setReaction = async (groupId, itemId, userId, reactionData) => {
+export const setReaction = async (groupId, itemId, user, reactionData) => {
   try {
-    const reactionRef = doc(db, COLLECTIONS.GROUPS, groupId, COLLECTIONS.ITEMS, itemId, COLLECTIONS.REACTIONS, userId);
+    const reactionRef = doc(db, COLLECTIONS.GROUPS, groupId, COLLECTIONS.ITEMS, itemId, COLLECTIONS.REACTIONS, user.uid);
 
     await setDoc(reactionRef, {
       ...reactionData,
+      userName: user.displayName || 'Użytkownik',
+      userAvatar: user.photoURL || null,
       updatedAt: serverTimestamp(),
     }, { merge: true });
 

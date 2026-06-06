@@ -15,7 +15,7 @@ export const WatchedToggle = ({ groupId, itemId, currentWatched = false }) => {
     setError('');
 
     try {
-      await setReaction(groupId, itemId, user.uid, { watched: !currentWatched });
+      await setReaction(groupId, itemId, user, { watched: !currentWatched });
     } catch (err) {
       console.error('Failed to update watched status:', err);
       setError('Wystąpił błąd podczas zapisywania.');
