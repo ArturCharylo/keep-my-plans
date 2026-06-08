@@ -6,8 +6,10 @@
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-md);
   transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover {
@@ -64,11 +66,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+  flex: 1;
 }
 
 @media (min-width: 600px) {
   .content {
-    flex-direction: row;
+    flex-direction: column;
   }
 }
 

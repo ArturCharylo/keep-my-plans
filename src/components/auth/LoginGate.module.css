@@ -1,5 +1,5 @@
 .container {
-  max-width: 400px;
+  max-width: 480px;
   margin: 0 auto;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -54,7 +54,7 @@
 }
 
 .content {
-  padding: 2rem;
+  padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -87,7 +87,7 @@
 }
 
 .label {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-primary);
   margin-bottom: -0.5rem;
@@ -95,10 +95,10 @@
 
 .input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-sm);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-primary);
   background: var(--input-bg);
   transition: border-color 0.2s, box-shadow 0.2s;

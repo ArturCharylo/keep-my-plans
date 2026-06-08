@@ -1,5 +1,5 @@
 .container {
-  max-width: 400px;
+  max-width: 480px;
   margin: 0 auto;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -44,7 +44,7 @@
 }
 
 .content {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
 }
 
 .form {
@@ -56,14 +56,14 @@
 .label {
   font-weight: 500;
   color: var(--text-primary);
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .input {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: 1rem;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-sm);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-primary);
   background: var(--input-bg);
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -76,12 +76,12 @@
 }
 
 .submitButton {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: 1rem;
   background: var(--color-primary);
   color: #111;
   border: none;
   border-radius: var(--radius-md);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;

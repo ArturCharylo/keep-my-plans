@@ -6,7 +6,7 @@ import { ITEM_TYPES } from '../../constants';
 import { addItem } from '../../services/queueService';
 import { useAuth } from '../../hooks/useAuth';
 
-export const AddItemForm = ({ groupId }) => {
+export const AddItemForm = ({ groupId, onSuccess }) => {
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -74,6 +74,7 @@ export const AddItemForm = ({ groupId }) => {
         coverUrl: '',
         notes: ''
       });
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error('Error adding item to queue:', err);
       setSubmitError('An error occurred while adding the item to the queue. Please try again later.');
@@ -84,8 +85,6 @@ export const AddItemForm = ({ groupId }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}>Dodaj do kolejki</h2>
-
       {submitError && (
         <div className={styles.globalError} aria-live="assertive">
           {submitError}

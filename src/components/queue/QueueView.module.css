@@ -65,6 +65,13 @@
 }
 
 .list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.headerControls {
+  margin-bottom: var(--spacing-lg);
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
 }
