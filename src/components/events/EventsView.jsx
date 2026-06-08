@@ -1,11 +1,14 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './EventsView.module.css';
 import { useEvents } from '../../hooks/useEvents';
 import { EventCard } from './EventCard';
 import { AddEventForm } from './AddEventForm';
+import { Modal } from '../common/Modal';
+import { Button } from '../common/Button';
 
 export const EventsView = ({ groupId }) => {
   const { events, loading, error } = useEvents(groupId);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { upcomingEvents, pastEvents } = useMemo(() => {
     if (!events) return { upcomingEvents: [], pastEvents: [] };
@@ -43,7 +46,19 @@ export const EventsView = ({ groupId }) => {
 
   return (
     <div className={styles.container}>
-      <AddEventForm groupId={groupId} />
+      <div className={styles.headerControls}>
+        <Button onClick={() => setIsAddModalOpen(true)}>
+          + Dodaj wydarzenie
+        </Button>
+      </div>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Dodaj wydarzenie"
+      >
+        <AddEventForm groupId={groupId} onSuccess={() => setIsAddModalOpen(false)} />
+      </Modal>
 
       <div className={styles.sections}>
         <section className={styles.section}>

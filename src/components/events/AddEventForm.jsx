@@ -6,7 +6,7 @@ import { EVENT_TYPES } from '../../constants';
 import { addEvent } from '../../services/eventService';
 import { useAuth } from '../../hooks/useAuth';
 
-export const AddEventForm = ({ groupId }) => {
+export const AddEventForm = ({ groupId, onSuccess }) => {
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -73,6 +73,7 @@ export const AddEventForm = ({ groupId }) => {
         location: '',
         description: ''
       });
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error('Error adding event:', err);
       setSubmitError('Wystąpił błąd podczas dodawania wydarzenia. Spróbuj ponownie.');
@@ -83,8 +84,6 @@ export const AddEventForm = ({ groupId }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}>Zaplanuj wydarzenie</h2>
-
       {submitError && (
         <div className={styles.globalError} aria-live="assertive">
           {submitError}

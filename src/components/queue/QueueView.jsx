@@ -3,6 +3,8 @@ import styles from './QueueView.module.css';
 import { useQueueItems } from '../../hooks/useQueueItems';
 import { ItemCard } from './ItemCard';
 import { AddItemForm } from './AddItemForm';
+import { Modal } from '../common/Modal';
+import { Button } from '../common/Button';
 
 const FILTER_OPTIONS = {
   ALL: 'all',
@@ -13,6 +15,7 @@ const FILTER_OPTIONS = {
 export const QueueView = ({ groupId, groupMembersCount }) => {
   const { items, loading, error } = useQueueItems(groupId);
   const [filter, setFilter] = useState(FILTER_OPTIONS.ALL);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   if (loading) {
     return (
@@ -32,7 +35,19 @@ export const QueueView = ({ groupId, groupMembersCount }) => {
 
   return (
     <div className={styles.container}>
-      <AddItemForm groupId={groupId} />
+      <div className={styles.headerControls}>
+        <Button onClick={() => setIsAddModalOpen(true)}>
+          + Dodaj pozycję
+        </Button>
+      </div>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Dodaj pozycję"
+      >
+        <AddItemForm groupId={groupId} onSuccess={() => setIsAddModalOpen(false)} />
+      </Modal>
 
       <div className={styles.filters}>
         <span className={styles.filterLabel}>Filtruj:</span>
