@@ -2,6 +2,7 @@ import styles from './Input.module.css';
 
 export const Input = ({
   id,
+  name,
   label,
   value,
   onChange,
@@ -19,6 +20,7 @@ export const Input = ({
       )}
       <input
         id={id}
+        name={name}
         type={type}
         value={value}
         onChange={onChange}
