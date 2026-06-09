@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './QueueView.module.css';
+import { useNavigate } from 'react-router-dom';
 import { useQueueItems } from '../../hooks/useQueueItems';
 import { ItemCard } from './ItemCard';
 import { AddItemForm } from './AddItemForm';
@@ -16,6 +17,7 @@ export const QueueView = ({ groupId, groupMembersCount }) => {
   const { items, loading, error } = useQueueItems(groupId);
   const [filter, setFilter] = useState(FILTER_OPTIONS.ALL);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -36,6 +38,10 @@ export const QueueView = ({ groupId, groupMembersCount }) => {
   return (
     <div className={styles.container}>
       <div className={styles.headerControls}>
+        <Button variant="secondary" onClick={() => navigate('/')}>
+          &larr; Wróć do grup
+        </Button>
+
         <Button onClick={() => setIsAddModalOpen(true)}>
           + Dodaj pozycję
         </Button>
