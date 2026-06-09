@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import styles from './EventsView.module.css';
+import { useNavigate } from 'react-router-dom';
 import { useEvents } from '../../hooks/useEvents';
 import { EventCard } from './EventCard';
 import { AddEventForm } from './AddEventForm';
@@ -9,6 +10,7 @@ import { Button } from '../common/Button';
 export const EventsView = ({ groupId }) => {
   const { events, loading, error } = useEvents(groupId);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const { upcomingEvents, pastEvents } = useMemo(() => {
     if (!events) return { upcomingEvents: [], pastEvents: [] };
@@ -47,6 +49,10 @@ export const EventsView = ({ groupId }) => {
   return (
     <div className={styles.container}>
       <div className={styles.headerControls}>
+        <Button variant="secondary" onClick={() => navigate('/')}>
+          &larr; Wróć do grup
+        </Button>
+        
         <Button onClick={() => setIsAddModalOpen(true)}>
           + Dodaj wydarzenie
         </Button>

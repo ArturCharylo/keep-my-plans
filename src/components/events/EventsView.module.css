@@ -59,4 +59,5 @@
   margin-bottom: var(--spacing-lg);
   display: flex;
   justify-content: flex-end;
+  gap: var(--spacing-md);
 }
