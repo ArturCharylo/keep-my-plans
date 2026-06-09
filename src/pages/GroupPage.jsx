@@ -4,7 +4,7 @@ import styles from './GroupPage.module.css';
 import { useAuth } from '../hooks/useAuth';
 import { useGroup } from '../hooks/useGroup';
 import { useViewMode } from '../hooks/useViewMode';
-import { addMemberToGroup } from '../services/groupService';
+import { addMemberToGroup, leaveGroup } from '../services/groupService';
 import { GroupHeader } from '../components/group/GroupHeader';
 import { ViewToggle } from '../components/common/ViewToggle';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
@@ -43,11 +43,18 @@ const GroupPageContent = () => {
     setIsLeaveModalOpen(true);
   }, []);
 
-  const handleConfirmLeave = useCallback(() => {
+  const handleConfirmLeave = useCallback(async () => {
     setIsLeaveModalOpen(false);
+    if (user && groupId) {
+      try {
+        await leaveGroup(groupId, user.uid);
+      } catch (error) {
+        console.error('Failed to leave group:', error);
+      }
+    }
     localStorage.removeItem('watchqueue_group');
     navigate(ROUTES.HOME);
-  }, [navigate]);
+  }, [navigate, user, groupId]);
 
   const handleCancelLeave = useCallback(() => {
     setIsLeaveModalOpen(false);

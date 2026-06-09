@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeFirestore, persistentLocalCache } from 'firebase/firestore';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getAnalytics } from "firebase/analytics";
 
@@ -26,7 +26,10 @@ const firebaseConfig = isTestEnv ? {
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
+// Initialize Firestore with persistent local cache to optimize reads and enable offline capabilities
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache()
+});
 export const auth = getAuth(app);
 export const analytics = typeof window !== 'undefined' && !isTestEnv ? getAnalytics(app) : null;
 export const googleProvider = new GoogleAuthProvider();

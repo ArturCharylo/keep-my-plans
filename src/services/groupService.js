@@ -8,12 +8,13 @@ import {
   where,
   updateDoc,
   arrayUnion,
+  arrayRemove,
   serverTimestamp,
-  onSnapshot
+  onSnapshot,
+  writeBatch
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { COLLECTIONS } from '../constants';
-
 import { INVITE_CODE_LENGTH } from '../constants';
 
 const generateInviteCode = () => {
@@ -43,9 +44,6 @@ export const createGroup = async (groupName, userId) => {
 };
 
 export const joinGroupByCode = async (inviteCode, userId) => {
-  // IMPORTANT: This query requires an index in Firestore.
-  // Make sure to create a single-field index on the 'inviteCode' field
-  // for the 'groups' collection.
   const groupsCol = collection(db, COLLECTIONS.GROUPS);
   const q = query(groupsCol, where('inviteCode', '==', inviteCode));
   const querySnapshot = await getDocs(q);
@@ -103,4 +101,59 @@ export const subscribeToGroup = (groupId, callback) => {
   });
 
   return unsubscribe;
+};
+
+export const getUserGroups = (userId) => {
+  const groupsCol = collection(db, COLLECTIONS.GROUPS);
+  return query(groupsCol, where('members', 'array-contains', userId));
+};
+
+export const deleteGroup = async (groupId) => {
+  const batch = writeBatch(db);
+  const groupRef = doc(db, COLLECTIONS.GROUPS, groupId);
+
+  // Delete items and their reactions
+  const itemsCol = collection(db, COLLECTIONS.GROUPS, groupId, COLLECTIONS.ITEMS);
+  const itemsSnap = await getDocs(itemsCol);
+
+  for (const itemDoc of itemsSnap.docs) {
+    const reactionsCol = collection(db, COLLECTIONS.GROUPS, groupId, COLLECTIONS.ITEMS, itemDoc.id, COLLECTIONS.REACTIONS);
+    const reactionsSnap = await getDocs(reactionsCol);
+    reactionsSnap.forEach((reactionDoc) => {
+      batch.delete(reactionDoc.ref);
+    });
+    batch.delete(itemDoc.ref);
+  }
+
+  // Delete events
+  const eventsCol = collection(db, COLLECTIONS.GROUPS, groupId, COLLECTIONS.EVENTS);
+  const eventsSnap = await getDocs(eventsCol);
+  eventsSnap.forEach((eventDoc) => {
+    batch.delete(eventDoc.ref);
+  });
+
+  // Delete the group document
+  batch.delete(groupRef);
+
+  await batch.commit();
+};
+
+export const leaveGroup = async (groupId, userId) => {
+  if (!groupId || !userId) {
+    throw new Error('Missing groupId or userId');
+  }
+
+  const groupRef = doc(db, COLLECTIONS.GROUPS, groupId);
+
+  await updateDoc(groupRef, {
+    members: arrayRemove(userId)
+  });
+
+  const updatedGroupSnap = await getDoc(groupRef);
+  if (updatedGroupSnap.exists()) {
+    const updatedMembers = updatedGroupSnap.data().members || [];
+    if (updatedMembers.length === 0) {
+      await deleteGroup(groupId);
+    }
+  }
 };
