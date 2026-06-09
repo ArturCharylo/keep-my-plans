@@ -8,8 +8,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'WatchQueue',
-        short_name: 'WatchQueue',
+        name: 'Keep my plans',
+        short_name: 'Plans',
         theme_color: '#6c63ff',
         background_color: '#ffffff',
         display: 'standalone',
