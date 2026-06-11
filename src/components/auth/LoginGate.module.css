@@ -2,8 +2,8 @@
   max-width: 480px;
   margin: 0 auto;
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -147,4 +147,45 @@
   color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+.googleButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+}
+
+.googleButton:hover:not(:disabled) {
+  background: var(--input-bg);
+  box-shadow: var(--glow-shadow);
+  transform: translateY(-2px);
+}
+
+.googleButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.googleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.googleButton svg {
+  width: 24px;
+  height: 24px;
 }

@@ -1,0 +1,206 @@
+/* Desktop Base */
+.desktopNav {
+  display: none;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+}
+
+.desktopContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.brandLink {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+/* Center Navigation Links */
+.centerNav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.navLink {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  transform: scale(0.95);
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+.navLink:active {
+  transform: scale(0.9);
+}
+
+.activeLink {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+/* Actions (Right side) */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.iconButton {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: var(--spacing-sm);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton:hover {
+  color: var(--color-primary);
+  background: var(--glass-border-highlight);
+}
+
+.logoutButton {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: var(--spacing-md);
+  transition: color 0.3s ease;
+}
+
+.logoutButton:hover {
+  color: var(--color-primary);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--glass-border-highlight);
+  margin-left: var(--spacing-sm);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--input-bg);
+  color: var(--text-secondary);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mobile Bottom Navigation */
+.mobileNav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-top: 1px solid var(--glass-border);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+.mobileContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md) var(--spacing-lg);
+}
+
+.mobileLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  padding: var(--spacing-sm);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobileLink:hover {
+  background: var(--input-bg);
+}
+
+.mobileLink:active {
+  transform: scale(0.95);
+}
+
+.mobileActiveLink {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.iconActive {
+  font-variation-settings: 'FILL' 1;
+}
+
+.mobileLinkLabel {
+  margin-top: 4px;
+}
+
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .desktopNav {
+    display: block;
+  }
+  .mobileNav {
+    display: none;
+  }
+}
