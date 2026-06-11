@@ -3,15 +3,18 @@ import styles from './Navigation.module.css';
 import { ROUTES } from '../../constants';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
+import { useNavigate } from 'react-router-dom';
 
 export const Navigation = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await logout();
+      navigate(ROUTES.LOGIN);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -55,9 +58,6 @@ export const Navigation = () => {
 
           {/* Actions */}
           <div className={styles.actions}>
-            <button className={styles.iconButton} aria-label="Powiadomienia">
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
             <button
               className={styles.iconButton}
               onClick={toggleTheme}
