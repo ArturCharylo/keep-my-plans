@@ -17,22 +17,42 @@
 
 .tile {
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
+  border-radius: 24px;
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-card);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.5s ease;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+}
+
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary-bg);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tile:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--glow-shadow);
+}
+
+.tile:hover::before {
+  opacity: 0.5;
+}
+
+.tileHeader, .tileInfo {
+  z-index: 1;
 }
 
 .tileHeader {
@@ -91,8 +111,8 @@
 
 .emptyState {
   background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
